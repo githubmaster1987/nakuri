@@ -194,15 +194,19 @@ def create_chrome_driver(proxy):
 
 def create_phantomjs_driver():
     ua = ["D", "W", agent.firefox]
-    
+
     screen_resolution = [1366, 768] 
     proxy_ip, proxy_port, proxy_user, proxy_pass = random_proxy()
 
-    agent_str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0"
+    # agent_str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0"
+    agent_str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36"
+    # agent_str = random_agent()[2]
+    # print agent_str
+    
     dcap = dict(DesiredCapabilities.PHANTOMJS)
     dcap["phantomjs.page.settings.userAgent"] = agent_str
     dcap['phantomjs.page.settings.loadImages'] = True
-    # dcap['phantomjs.page.settings.resourceTimeout'] = 60000
+    dcap['phantomjs.page.settings.resourceTimeout'] = 60000
 
     headers = {
         "Host": "www.naukri.com",
@@ -224,8 +228,8 @@ def create_phantomjs_driver():
     print service_args
     driver = None
     try:
-        driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
-        # driver = webdriver.PhantomJS(desired_capabilities=dcap)
+        # driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
+        driver = webdriver.PhantomJS(desired_capabilities=dcap)
          # driver = webdriver.PhantomJS()
     except WebDriverException as e:
         print("webdriver.PhantomJS WebDriverException -> %s" % str(e))
@@ -235,14 +239,14 @@ def create_phantomjs_driver():
         except Exception as e:
             pass
 
-        return None, ua, proxy_ip, screen_resolution
+        return None
 
     driver.set_window_size(screen_resolution[0], screen_resolution[1])
     driver.implicitly_wait(config.DRIVER_WAITING_SECONDS)
     driver.set_page_load_timeout(config.DRIVER_WAITING_SECONDS)
 
     # print driver, ua, proxy_ip, screen_resolution
-    return driver, ua, proxy_ip, screen_resolution
+    return driver
     #return driver, ua, proxy, screen_resolution
 
 def phantom_Quit(driver):

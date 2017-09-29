@@ -184,11 +184,12 @@ def create_url():
 		# return
 
 		put_screenshot("after login.png");
+		# print(driver.get_cookies())
 
-		user = driver.find_element_by_xpath("//ul[@class='rghtSec fr menu logged']/li/a/div[@class='mTxt']")
-		print user.text
+		user = driver.find_elements_by_xpath("//ul[@class='rghtSec fr menu logged']/li")
+
+		print user[1].find_element_by_xpath("a/div[@class='mTxt']").text
 		
-		common_lib.phantom_Quit(driver)
 		# return
 		for key_index, keyword in enumerate(keywords):
 			total_applied_job_count = 0
@@ -761,7 +762,7 @@ if __name__ == '__main__':
 	threads_number = args.threads
 	proxy_type = args.proxy
 
-	driver, ua, proxy_ip, screen_resolution = common_lib.create_phantomjs_driver()
+	driver = common_lib.create_phantomjs_driver()
 	# driver = common_lib.create_chrome_driver(None)
 	print driver
 	create_url() 
