@@ -206,14 +206,14 @@ def create_phantomjs_driver():
     dcap = dict(DesiredCapabilities.PHANTOMJS)
     dcap["phantomjs.page.settings.userAgent"] = agent_str
     dcap['phantomjs.page.settings.loadImages'] = True
-    dcap['phantomjs.page.settings.resourceTimeout'] = 60000
+    # dcap['phantomjs.page.settings.resourceTimeout'] = 60000
 
     headers = {
         "Host": "www.naukri.com",
         "User-Agent": agent_str,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Accept-Encoding": "gzip, deflate, br"
+        # "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        # "Accept-Language": "en-US,en;q=0.5",
+        # "Accept-Encoding": "gzip, deflate, br"
     }
     
     for key, value in enumerate(headers):
@@ -242,8 +242,8 @@ def create_phantomjs_driver():
         return None
 
     driver.set_window_size(screen_resolution[0], screen_resolution[1])
-    driver.implicitly_wait(config.DRIVER_WAITING_SECONDS)
-    driver.set_page_load_timeout(config.DRIVER_WAITING_SECONDS)
+    # driver.implicitly_wait(config.DRIVER_WAITING_SECONDS)
+    # driver.set_page_load_timeout(config.DRIVER_WAITING_SECONDS)
 
     # print driver, ua, proxy_ip, screen_resolution
     return driver

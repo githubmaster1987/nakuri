@@ -64,11 +64,15 @@ start_url = "https://www.naukri.com/browse-jobs"
 username = "prasoon13.chourasia@gmail.com"
 userpwd = "P@##w*r4"
 
+username = "vijaykrishna.p15115@iimtrichy.ac.in"
+userpwd = "argo@007"
+
 keywords = config.keywords
 
 total_applied_job_count = 0
 
 screenshot_enable = True
+screenshot_count = 0
 class AnyEc:
 	""" Use with WebDriverWait to combine expected_conditions
 		in an OR.
@@ -85,7 +89,10 @@ class AnyEc:
 				pass
 
 def put_screenshot(file_name):
+	global screenshot_count
 	if screenshot_enable == True:
+		screenshot_count += 1
+		file_name = str(screenshot_count) + "_" + file_name
 		print "++++++++++++++++" + file_name + " was saved."
 		driver.save_screenshot("logs/" + file_name)
 
@@ -217,6 +224,8 @@ def create_url():
 
 			li_divs = search_div.find_elements_by_xpath(".//div[@id='exp_dd']/div[@class='sDrop']//ul/li")
 			print "Experience Len=", len(li_divs)
+
+			wait()
 
 			for li_div in li_divs:
 				if li_div.text.strip() == str(keyword["Experience"]):
