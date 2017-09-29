@@ -64,14 +64,11 @@ start_url = "https://www.naukri.com/browse-jobs"
 username = "prasoon13.chourasia@gmail.com"
 userpwd = "P@##w*r4"
 
-username = "vijaykrishna.p15115@iimtrichy.ac.in"
-userpwd = "argo@007"
-
 keywords = config.keywords
 
 total_applied_job_count = 0
 
-screenshot_enable = True
+screenshot_enable = False
 screenshot_count = 0
 class AnyEc:
 	""" Use with WebDriverWait to combine expected_conditions
