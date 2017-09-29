@@ -194,39 +194,32 @@ def create_chrome_driver(proxy):
 
 def create_phantomjs_driver():
     ua = ["D", "W", agent.firefox]
-    # if ua == None:
-    #     ua = random_agent()
-    #     # e.g. ["M", "A", "Mozilla/5.0 (Android; Mobile; rv:40.0) Gecko/40.0 Firefox/40.0"],
-    #     if ua[0] == "M": # Mobile
-    #         screen_resolution = random.choice(config.MOBILE_SC)
-    #     elif ua[0] == "T": # Tablet
-    #         screen_resolution = random.choice(config.TABLET_SC)
-    #     else: # elif ua[0] == "D": # Desktop
-    #         screen_resolution = random.choice(config.DESKTOP_SC)
-
+    
     screen_resolution = [1366, 768] 
-    # proxy = random_proxy()
     proxy_ip, proxy_port, proxy_user, proxy_pass = random_proxy()
 
+    agent_str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0"
     dcap = dict(DesiredCapabilities.PHANTOMJS)
-    dcap["phantomjs.page.settings.userAgent"] = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0"
+    dcap["phantomjs.page.settings.userAgent"] = agent_str
     dcap['phantomjs.page.settings.loadImages'] = True
-    dcap['phantomjs.page.settings.resourceTimeout'] = 60000
+    # dcap['phantomjs.page.settings.resourceTimeout'] = 60000
 
-    dcap['phantomjs.page.customHeaders.User-Agent'] = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0"
-    # dcap['phantomjs.page.customHeaders.Accept'] = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
-    #dcap['phantomjs.page.customHeaders.Accept-Encoding'] = "gzip, deflate, *"
+    headers = {
+        "Host": "www.naukri.com",
+        "User-Agent": agent_str,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br"
+    }
     
-    accept_language = "en-US,en;q=0.5"
-
-    # if accept_language != "":
-    #    dcap['phantomjs.page.customHeaders.Accept-Language'] = accept_language
+    for key, value in enumerate(headers):
+        capability_key = 'phantomjs.page.customHeaders.{}'.format(key)
+        dcap[capability_key] = value
+    
     proxy_str = "{}:{}".format(proxy_ip, proxy_port)
     auth_str = "{}:{}".format(proxy_user, proxy_pass)
     c_type='http'
-    # c_type = "socks5"
-    # proxy_str="localhost:9090"
-    # service_args = ['--proxy=%s' % proxy_str, '--proxy-type=%s' % c_type]
+   
     service_args = ['--proxy=%s' % proxy_str, '--proxy-type=%s' % c_type,'--proxy-auth=%s' % auth_str , '--ignore-ssl-errors=true', '--ssl-protocol=any', '--web-security=false']
     print service_args
     driver = None
@@ -242,7 +235,7 @@ def create_phantomjs_driver():
         except Exception as e:
             pass
 
-        return None, ua, proxy, screen_resolution
+        return None, ua, proxy_ip, screen_resolution
 
     driver.set_window_size(screen_resolution[0], screen_resolution[1])
     driver.implicitly_wait(config.DRIVER_WAITING_SECONDS)

@@ -68,7 +68,7 @@ keywords = config.keywords
 
 total_applied_job_count = 0
 
-screenshot_enable = False
+screenshot_enable = True
 class AnyEc:
 	""" Use with WebDriverWait to combine expected_conditions
 		in an OR.
@@ -188,6 +188,8 @@ def create_url():
 		user = driver.find_element_by_xpath("//ul[@class='rghtSec fr menu logged']/li/a/div[@class='mTxt']")
 		print user.text
 		
+		common_lib.phantom_Quit(driver)
+		# return
 		for key_index, keyword in enumerate(keywords):
 			total_applied_job_count = 0
 			
@@ -391,27 +393,58 @@ def create_url():
 					continue
 
 				print "Find Skip Link & Apply Job Button"
+				exist = 0
 				try:
-					WebDriverWait(driver, DRIVER_WAITING_SECONDS).until(
-						AnyEc(
-							EC.presence_of_element_located(
-								(By.XPATH, "//a[@id='skip_qup']")
-							),
-							EC.presence_of_element_located(
-								(By.XPATH, "//a[@id='qup_skip']")
-							),
-							EC.presence_of_element_located(
-								(By.XPATH, "//button[@id='qupSubmit']")
-							),
-							EC.presence_of_element_located(
-								(By.XPATH, "//button[@id='qusSubmit']")
-							),
-						)
-					)
-				except TimeoutException as t:
+					item1 = driver.find_element_by_xpath("//a[@id='skip_qup']")
+					exist = 1
+				except:
+					pass
+
+				try:
+					item2 = driver.find_element_by_xpath("//a[@id='qup_skip']")
+					exist = 2
+				except:
+					pass
+
+				try:
+					item3 = driver.find_element_by_xpath("//button[@id='qupSubmit']")
+					exist = 3
+				except:
+					pass
+
+				try:
+					item4 = driver.find_element_by_xpath("//button[@id='qusSubmit']")
+					exist = 4
+				except:
+					pass
+
+				print "Exist = ", exist
+				if exist == 0:
 					print 'Not found any job submit button'
 					close_tabs(driver)
 					continue
+
+				# try:
+					# WebDriverWait(driver, DRIVER_WAITING_SECONDS).until(
+					# 	AnyEc(
+					# 		EC.presence_of_element_located(
+					# 			(By.XPATH, "//a[@id='skip_qup']")
+					# 		),
+					# 		EC.presence_of_element_located(
+					# 			(By.XPATH, "//a[@id='qup_skip']")
+					# 		),
+					# 		EC.presence_of_element_located(
+					# 			(By.XPATH, "//button[@id='qupSubmit']")
+					# 		),
+					# 		EC.presence_of_element_located(
+					# 			(By.XPATH, "//button[@id='qusSubmit']")
+					# 		),
+					# 	)
+					# )
+				# except TimeoutException as t:
+				# 	print 'Not found any job submit button'
+				# 	close_tabs(driver)
+				# 	continue
 				
 				put_screenshot("skip_and_apply.png");    
 			
