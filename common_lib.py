@@ -228,8 +228,8 @@ def create_phantomjs_driver():
     print service_args
     driver = None
     try:
-        # driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
-        driver = webdriver.PhantomJS(desired_capabilities=dcap)
+        driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
+        # driver = webdriver.PhantomJS(desired_capabilities=dcap)
          # driver = webdriver.PhantomJS()
     except WebDriverException as e:
         print("webdriver.PhantomJS WebDriverException -> %s" % str(e))
