@@ -1,0 +1,4 @@
+selenium
+requests
+python-dateutil
+https://github.com/cungnv/scrapex/archive/master.zip
